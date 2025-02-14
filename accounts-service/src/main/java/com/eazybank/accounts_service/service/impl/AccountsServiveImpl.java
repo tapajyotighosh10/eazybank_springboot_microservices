@@ -15,7 +15,6 @@ import com.eazybank.accounts_service.service.AccountsService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Random;
 
@@ -34,7 +33,6 @@ public class AccountsServiveImpl implements AccountsService {
         if(optionalCustomer.isPresent()){
             throw new CustomerAlreadyExistsException("Customer already exists with the given mobile number: "+customerDto.getMobileNumber());
         }
-
 
         Customer savedCustomer = customerRepository.save(customer);
         accountsRepository.save(createNewAccount(savedCustomer));
