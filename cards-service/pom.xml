@@ -100,7 +100,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<image>
-						<name>tapajyoti10/${project.artifactId}:s4</name>
+						<name>tapajyoti10/${project.artifactId}:s6</name>
 					</image>
 					<excludes>
 						<exclude>
