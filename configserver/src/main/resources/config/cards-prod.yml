@@ -1,13 +1,8 @@
-spring:
-  config:
-    activate:
-      on-profile: "prod"
-
 build:
   version: "4.0"
 
 accounts:
-  message: "Welcome to EazyBank accounts related Production APIs "
+  message: "Welcome to EazyBank cards related Production APIs "
   contactDetails:
     name: "Tapajyoti Ghosh - Production Lead"
     email: "tghosh@eazybank.com"

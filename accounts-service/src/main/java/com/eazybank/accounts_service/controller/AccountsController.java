@@ -33,8 +33,8 @@ public class AccountsController {
     private final AccountsService accountsService;
 
     @Autowired
-    public AccountsController(AccountsService accountsService){
-        this.accountsService=accountsService;
+    public AccountsController(AccountsService accountsService) {
+        this.accountsService = accountsService;
     }
 
     @Value("${build.version}")
@@ -63,13 +63,13 @@ public class AccountsController {
     }
     )
     @PostMapping("/create")
-    public ResponseEntity<ResponseDto> createAccount(@Valid @RequestBody CustomerDto customerDto){
+    public ResponseEntity<ResponseDto> createAccount(@Valid @RequestBody CustomerDto customerDto) {
 
         accountsService.createAccount(customerDto);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(new ResponseDto(AccountsConstants.STATUS_201,AccountsConstants.MESSAGE_201));
+                .body(new ResponseDto(AccountsConstants.STATUS_201, AccountsConstants.MESSAGE_201));
     }
 
     @Operation(summary = "Fetch Account details REST API", description = "REST API to fetch Customer & Account inside EazyBank", tags = {"Accounts APIs"})
@@ -89,9 +89,9 @@ public class AccountsController {
     )
     @GetMapping("/fetch")
     public ResponseEntity<CustomerDto> fetchAccountDetails(@RequestParam
-                                                           @Pattern(regexp="(^$|[0-9]{10})",message = "Mobile number must be 10 digits")
-                                                               String mobileNumber){
-        CustomerDto customerDto=accountsService.fetchAccount(mobileNumber);
+                                                           @Pattern(regexp = "(^$|[0-9]{10})", message = "Mobile number must be 10 digits")
+                                                           String mobileNumber) {
+        CustomerDto customerDto = accountsService.fetchAccount(mobileNumber);
         return ResponseEntity.status(HttpStatus.OK).body(customerDto);
     }
 
@@ -118,16 +118,17 @@ public class AccountsController {
     @PutMapping("/update")
     public ResponseEntity<ResponseDto> updateAccountDetails(@Valid @RequestBody CustomerDto customerDto) {
         boolean isUpdated = accountsService.updateAccount(customerDto);
-        if(isUpdated) {
+        if (isUpdated) {
             return ResponseEntity
                     .status(HttpStatus.OK)
                     .body(new ResponseDto(AccountsConstants.STATUS_200, AccountsConstants.MESSAGE_200));
-        }else{
+        } else {
             return ResponseEntity
                     .status(HttpStatus.EXPECTATION_FAILED)
                     .body(new ResponseDto(AccountsConstants.STATUS_417, AccountsConstants.MESSAGE_417_UPDATE));
         }
     }
+
     @Operation(summary = "Delete Account REST API", description = "REST API to delete new Customer & Account inside EazyBank", tags = {"Accounts APIs"})
     @ApiResponses({
             @ApiResponse(
@@ -149,19 +150,20 @@ public class AccountsController {
     )
     @DeleteMapping("/delete")
     public ResponseEntity<ResponseDto> deleteAccountDetails(@RequestParam
-                                                            @Pattern(regexp="(^$|[0-9]{10})",message = "Mobile number must be 10 digits")
+                                                            @Pattern(regexp = "(^$|[0-9]{10})", message = "Mobile number must be 10 digits")
                                                             String mobileNumber) {
         boolean isDeleted = accountsService.deleteAccount(mobileNumber);
-        if(isDeleted) {
+        if (isDeleted) {
             return ResponseEntity
                     .status(HttpStatus.OK)
                     .body(new ResponseDto(AccountsConstants.STATUS_200, AccountsConstants.MESSAGE_200));
-        }else{
+        } else {
             return ResponseEntity
                     .status(HttpStatus.EXPECTATION_FAILED)
                     .body(new ResponseDto(AccountsConstants.STATUS_417, AccountsConstants.MESSAGE_417_DELETE));
         }
     }
+
     @Operation(summary = "Fetch build information REST API", description = "REST API to fetchbuild info EazyBank", tags = {"Accounts APIs"})
     @ApiResponses({
             @ApiResponse(
@@ -178,7 +180,7 @@ public class AccountsController {
     }
     )
     @GetMapping("/build-info")
-    public ResponseEntity<String> getBuildVersionInfo(){
+    public ResponseEntity<String> getBuildVersionInfo() {
         return ResponseEntity.status(HttpStatus.OK).body(buildVersion);
     }
 
@@ -199,7 +201,7 @@ public class AccountsController {
     }
     )
     @GetMapping("/java-info")
-    public ResponseEntity<String> getJavaVersionInfo(){
+    public ResponseEntity<String> getJavaVersionInfo() {
         return ResponseEntity
                 .status(HttpStatus.OK).body(environment.getProperty("MAVEN_HOME"));
     }
@@ -221,7 +223,7 @@ public class AccountsController {
     }
     )
     @GetMapping("/contact-info")
-    public ResponseEntity<AccountsContactInfoDto> getContactInfo(){
+    public ResponseEntity<AccountsContactInfoDto> getContactInfo() {
         return ResponseEntity
                 .status(HttpStatus.OK).body(accountsContactInfoDto);
     }
