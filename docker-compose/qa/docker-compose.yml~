@@ -1,41 +1,42 @@
 services:
-  rabbit:
-    image: rabbitmq:3.13-management
-    hostname: rabbitmq
-    ports:
-      - "5672:5672"
-      - "15672:15672"
-    healthcheck:
-      test: rabbitmq-diagnostics check_port_connectivity
-      interval: 10s
-      timeout: 5s
-      retries: 10
-      start_period: 5s
-    extends:
-      file: common-config.yml
-      service: network-deploy-service
 
   configserver:
-    image: "tapajyoti10/configserver:s6"
+    image: "tapajyoti10/configserver:s8"
     container_name: configserver-ms
     ports:
       - "8071:8071"
-    depends_on:
-      rabbit:
-        condition: service_healthy
-#    healthcheck:
-#      test: "curl --fail --silent http://localhost:8071/actuator/health | grep '\"status\":\"UP\"' || exit 1"
-#      interval: 20s
-#      timeout: 10s
-#      retries: 5
-#      start_period: 60s
+    healthcheck:
+      test: "curl --fail --silent http://localhost:8071/actuator/health | grep '\"status\":\"UP\"' || exit 1"
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
     extends:
       file: common-config.yml
       service: microservice-base-config
 
+  eurekaserver:
+    image: "eazybytes/eurekaserver:s8"
+    container_name: eurekaserver-ms
+    ports:
+      - "8070:8070"
+    depends_on:
+      configserver:
+        condition: service_healthy
+    healthcheck:
+      test: "curl --fail --silent localhost:8070/actuator/health/readiness | grep UP || exit 1"
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    extends:
+      file: common-config.yml
+      service: microservice-configserver-config
+    environment:
+      SPRING_APPLICATION_NAME: "eurekaserver"
 
   accounts:
-    image: "tapajyoti10/accounts-service:s6"
+    image: "tapajyoti10/accounts-service:s8"
     container_name: accounts-ms
     ports:
       - "8080:8080"
@@ -49,7 +50,7 @@ services:
       service: microservice-configserver-config
 
   loans:
-    image: "tapajyoti10/loans-service:s6"
+    image: "tapajyoti10/loans-service:s8"
     container_name: loans-ms
     ports:
       - "8090:8090"
@@ -63,7 +64,7 @@ services:
       service: microservice-configserver-config
 
   cards:
-    image: "tapajyoti10/cards-service:s6"
+    image: "tapajyoti10/cards-service:s8"
     container_name: cards-ms
     ports:
       - "9000:9000"
