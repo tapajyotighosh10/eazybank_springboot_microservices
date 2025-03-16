@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Accounts APIs", description = "Accounts REST APIs for EazyBank")
 @RestController
-@RequestMapping(path = "/api/v1/accounts", produces = {MediaType.APPLICATION_JSON_VALUE})
+@RequestMapping(path = "/api", produces = {MediaType.APPLICATION_JSON_VALUE})
 @Validated
 public class AccountsController {
 
@@ -156,7 +156,7 @@ public class AccountsController {
         if (isDeleted) {
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .body(new ResponseDto(AccountsConstants.STATUS_200, AccountsConstants.MESSAGE_200));
+                    .body(new ResponseDto(AccountsConstants.STATUS_204, AccountsConstants.MESSAGE_204));
         } else {
             return ResponseEntity
                     .status(HttpStatus.EXPECTATION_FAILED)

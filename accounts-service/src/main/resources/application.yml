@@ -42,9 +42,17 @@ management:
     web:
       exposure:
         include: "*"
+  health:
+    readiness-state:
+      enabled: true
+    liveness-state:
+      enabled: true
   endpoint:
     shutdown:
       access: unrestricted
+    health:
+      probes:
+        enabled: true
   info:
     env:
       enabled: true
@@ -63,3 +71,9 @@ info:
     name: "accounts"
     description: "Eazy Bank Accounts Application"
     version: "1.0.0"
+
+logging:
+  level:
+    com:
+      eazybank:
+        accounts_service: DEBUG
