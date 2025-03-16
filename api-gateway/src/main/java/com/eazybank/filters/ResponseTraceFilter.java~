@@ -1,0 +1,4 @@
+package com.eazybank.filters;
+
+public class ResponseTraceFilter {
+}
